@@ -1,0 +1,47 @@
+rules_version = '2';
+
+// PHASE 4 STORAGE RULES — product photos (#34) + chat attachments (#13).
+// Deploy separately from firestore.rules:
+//   firebase deploy --only storage
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // products/{uid}/{fileName} — matches the path AddProductScreen /
+    // ImagePickerTile builds: 'products/${user.uid}/${timestamp}.jpg'.
+    // Publicly readable (product photos are public market data, same as
+    // the Firestore `products` collection), but only the trader whose uid
+    // is IN THE PATH can upload there — one trader can't overwrite
+    // another's product photos by guessing their uid.
+    match /products/{uid}/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+                   && request.auth.uid == uid
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+
+    // chat/{conversationId}/{fileName} — only the two participants in
+    // that specific conversation can read or upload. This is the one
+    // place Storage rules reach into Firestore (cross-service rules) to
+    // check `conversations/{conversationId}` for who buyerId/sellerId are,
+    // mirroring the equivalent check in firestore.rules for the messages
+    // subcollection itself.
+    match /chat/{conversationId}/{fileName} {
+      allow read, write: if request.auth != null &&
+        (
+          request.auth.uid ==
+            firestore.get(/databases/(default)/documents/conversations/$(conversationId)).data.buyerId ||
+          request.auth.uid ==
+            firestore.get(/databases/(default)/documents/conversations/$(conversationId)).data.sellerId
+        ) &&
+        request.resource.size < 5 * 1024 * 1024 &&
+        request.resource.contentType.matches('image/.*');
+    }
+
+    // Deny everything else by default.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

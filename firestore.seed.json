@@ -1,0 +1,45 @@
+{
+  "_comment": "Sample docs for the `products` collection — import these manually via the Firebase console, or write a one-off script with the Admin SDK, to see the real Firestore path working end-to-end instead of the in-app sample-data fallback.",
+  "products": [
+    {
+      "name": "اسمنت بورتلاندي رمادي",
+      "category": "اسمنت",
+      "price": 32.0,
+      "priceUnit": "طن",
+      "quantityAvailable": 500,
+      "description": "اسمنت مطابق للمواصفات، تعبئة أكياس 50 كغم.",
+      "imageUrl": "",
+      "sellerId": "demo-seller-1",
+      "sellerName": "مؤسسة النور لمواد البناء",
+      "sellerPhone": "+970599000100",
+      "location": "غزة - الزيتون"
+    },
+    {
+      "name": "حديد تسليح 12 ملم",
+      "category": "حديد",
+      "price": 780.0,
+      "priceUnit": "طن",
+      "quantityAvailable": 120,
+      "description": "حديد تسليح درجة أولى، قياس 12 ملم، طول 12 متر.",
+      "imageUrl": "",
+      "sellerId": "demo-seller-2",
+      "sellerName": "شركة الأمل للحديد",
+      "sellerPhone": "+970599000101",
+      "location": "غزة - الشيخ رضوان"
+    },
+    {
+      "name": "رمل بناء مغسول",
+      "category": "رمل",
+      "price": 18.0,
+      "priceUnit": "م³",
+      "quantityAvailable": 300,
+      "description": "رمل مغسول مناسب للخلطات الإسمنتية والبلاستر.",
+      "imageUrl": "",
+      "sellerId": "demo-seller-3",
+      "sellerName": "مقلع الوادي",
+      "sellerPhone": "+970599000102",
+      "location": "خان يونس"
+    }
+  ],
+  "_note_on_updatedAt": "Each doc also needs an `updatedAt` server timestamp field — the app's own 'إضافة منتج' flow sets this automatically via FieldValue.serverTimestamp(). If you import these by hand, add that field manually or the ordering query in FirestoreMarketRepository will skip docs that don't have it."
+}

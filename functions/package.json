@@ -1,0 +1,14 @@
+{
+  "name": "tajer-shield-functions",
+  "description": "Server-side Escrow/payment logic for درع التاجر — see index.js for why this exists as a separate server-only surface instead of client code.",
+  "engines": {
+    "node": "20"
+  },
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^12.6.0",
+    "firebase-functions": "^5.1.1"
+  },
+  "devDependencies": {},
+  "private": true
+}

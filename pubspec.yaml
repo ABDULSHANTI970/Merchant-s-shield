@@ -1,0 +1,60 @@
+name: tajer_shield
+description: "درع التاجر — سوق مواد البناء وبنك الضمان (Escrow) للتجار في فلسطين."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # -- Firebase (Phase 1: market data. Phase 2 adds auth. Phase 3 adds chat.
+  # Phase 4 adds Storage for product/chat photos. Cloud Functions for
+  # payments still comes in the Escrow phase) --
+  firebase_core: ^3.6.0
+  cloud_firestore: ^5.4.4
+  firebase_auth: ^5.3.1
+  firebase_storage: ^12.3.2
+
+  # google_sign_in pinned to the 6.x line on purpose — its v7 line reworked
+  # the sign-in API (see lib/services/firebase_auth_repository.dart comment).
+  # The caret keeps `flutter pub get` on 6.x; don't bump the major version
+  # without updating that file's Google sign-in flow to match.
+  google_sign_in: ^6.2.1
+
+  # Camera/gallery picker for product photos (#34) and chat attachments
+  # (#13). Ships official Android/iOS/web support; desktop (Windows/macOS/
+  # Linux) support is newer in this package — couldn't be verified live in
+  # this sandbox, so test the "اختر من المعرض" flow on desktop specifically
+  # once you run it.
+  image_picker: ^1.1.2
+
+  # -- UI / UX --
+  google_fonts: ^6.2.1 # Cairo + Tajawal, matches the investor deck & features page
+  cached_network_image: ^3.4.1
+  intl: ^0.19.0
+
+  # -- Utilities --
+  url_launcher: ^6.3.1 # tap-to-call the trader's phone number from a product
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+# NOTE ON VERSIONS
+# This sandbox has no network access, so these version numbers could not be
+# verified live against pub.dev at generation time. Before running:
+#   1. flutter pub get
+#   2. flutter pub outdated   (bump anything that's moved since)
